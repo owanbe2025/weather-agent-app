@@ -118,14 +118,20 @@ if "lat" not in st.session_state:
 if "lon" not in st.session_state:
     st.session_state.lon = None
 
+# Check Weather button logic
 if st.button("Check Weather 🌦️"):
     weather_report, lat, lon = get_weather(city)
+    st.session_state.weather_report = weather_report
     st.session_state.city = city
     st.session_state.lat = lat
     st.session_state.lon = lon
-    st.markdown(weather_report, unsafe_allow_html=True)
 
-if st.session_state.lat and st.session_state.lon:
+# Always display the weather report if it exists
+if "weather_report" in st.session_state:
+    st.markdown(st.session_state.weather_report, unsafe_allow_html=True)
+
+# Always show the map and forecast buttons if lat/lon exist
+if st.session_state.get("lat") and st.session_state.get("lon"):
     if st.button("Show Map 🗺️"):
         m = folium.Map(location=[st.session_state.lat, st.session_state.lon], zoom_start=10)
         folium.Marker([st.session_state.lat, st.session_state.lon], popup=st.session_state.city).add_to(m)
@@ -134,4 +140,3 @@ if st.session_state.lat and st.session_state.lon:
     if st.button("Show 5-Day Forecast 📅"):
         forecast = get_forecast(st.session_state.city)
         st.markdown(forecast)
-
