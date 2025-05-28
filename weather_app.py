@@ -108,7 +108,7 @@ st.markdown(
 st.title("🌍 Weather Checker")
 st.markdown("Enter a city to see the current weather and forecast! 🌦️")
 
-city = st.text_input("City Name", "Lagos")
+city = st.text_input("City Name", "Belfast")
 
 # Use session state to remember city and weather data
 if "city" not in st.session_state:
